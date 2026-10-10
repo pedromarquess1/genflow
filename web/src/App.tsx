@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import Header from './components/Header';
 import axios from 'axios';
 
-function App() {
+export default function App() {
   const [mensagem, setMensagem] = useState("Carregando status da API...");
 
   useEffect(() => {
@@ -18,7 +19,8 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: '40px', fontFamily: 'sans-serif', textAlign: 'center' }}>
+    <div>
+      <Header/>
       <h1>Painel do Projeto</h1>
       <div style={{
         background: '#f0f2f5',
@@ -33,5 +35,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
