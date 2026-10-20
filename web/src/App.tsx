@@ -1,37 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from './components/Header';
-import axios from 'axios';
+import Task from './components/Tasks';
 
 export default function App() {
-  const [mensagem, setMensagem] = useState("Carregando status da API...");
-
-  useEffect(() => {
-    const buscarStatus = async () => {
-      try {
-        const resposta = await axios.get('http://127.0.0.1:8000/status');
-        setMensagem(resposta.data);
-      } catch (erro) {
-        console.error("Erro ao conectar na API:", erro);
-        setMensagem("Erro ao conectar com o backend.");
-      }
-    };
-    buscarStatus();
-  }, []);
+  const [activeTab, setActiveTab] = useState<'kanban' | 'financeiro'>('kanban');
 
   return (
-    <div>
-      <Header/>
-      <h1>Painel do Projeto</h1>
-      <div style={{
-        background: '#f0f2f5',
-        padding: '20px',
-        borderRadius: '8px',
-        display: 'inline-block',
-        marginTop: '20px'
-      }}>
-        <strong>Status do Backend (via Async/Await):</strong>
-        <p>{mensagem}</p>
-      </div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      <main className="flex-1 p-4 sm:p-8 max-w-7xl mx-auto w-full">
+        {activeTab === 'kanban' ? (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-bold tracking-tight">Quadro Kanban</h1>
+            </div>
+            <Task />
+          </div>
+        ) : (
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight mb-6">Controle Financeiro</h1>
+            <p className="text-slate-400">Módulo financeiro em construção...</p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
