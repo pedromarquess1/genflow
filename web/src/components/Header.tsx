@@ -38,7 +38,6 @@ export default function Header({ activeTab, setActiveTab }: HeaderProps) {
                     </nav>
                 </div>
 
-                {/* Perfil */}
                 <div className="flex items-center justify-end space-x-4">
                     <div className="h-6 w-[1px] bg-slate-800 hidden sm:block"></div>
                     <div className="flex items-center gap-3 pl-1 cursor-pointer group">

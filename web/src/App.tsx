@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from './components/Header';
-import Task from './components/Tasks';
+import TaskList from './components/TaskList';
+
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'kanban' | 'financeiro'>('kanban');
@@ -15,7 +16,7 @@ export default function App() {
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-bold tracking-tight">Quadro Kanban</h1>
             </div>
-            <Task />
+            <TaskList />
           </div>
         ) : (
           <div>

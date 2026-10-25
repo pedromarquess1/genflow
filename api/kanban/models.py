@@ -15,7 +15,7 @@ class Task(models.Model):
         ALTA = 'HIGH', 'Alta'
 
 
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True)
     title = models.CharField(max_length=150)
     description = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=15, choices=StatusChoice.choices, default=StatusChoice.FAZER)
