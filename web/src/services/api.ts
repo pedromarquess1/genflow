@@ -1,8 +1,9 @@
 import axios from 'axios';
 import type { TaskItem, CreateTaskDTO } from '../types/tasks.types';
 
+
 export const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/kanban/tasks',
+    baseURL: 'http://127.0.0.1:8000/api/kanban/tasks/',
     headers: {
         'Content-Type': 'application/json',
     }
@@ -32,7 +33,7 @@ export const createTask = async (taskData: CreateTaskDTO): Promise<TaskItem> => 
 
 export const getTaskById = async (id: number): Promise<TaskItem> => {
     try {
-        const res = await api.get<TaskItem>(`/${id}`);
+        const res = await api.get<TaskItem>(`${id}/`);
         return res.data
     } catch (error) {
         console.error("Erro ao buscar tarefa por ID: ", error)
