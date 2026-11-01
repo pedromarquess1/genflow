@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { type TaskItem, getTask } from '../services/api';
+import type { TaskItem } from '../types/tasks.types';
+import { getTask } from '../services/api';
 import TaskCard from './Task';
 
 export default function TaskList() {

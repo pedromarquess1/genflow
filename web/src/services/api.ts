@@ -1,16 +1,5 @@
 import axios from 'axios';
-
-export interface TaskItem {
-    id: number;
-    title: string;
-    description: string;
-    status: 'TODO' | 'IN_PROGRESS' | 'DONE';
-    priority: 'LOW' | 'MEDIUM' | 'HIGH';
-    due_date?: string;
-}
-
-// Tipo para a criação (exclui o ID gerado pelo backend)
-export type CreateTaskDTO = Omit<TaskItem, 'id'>;
+import type { TaskItem, CreateTaskDTO } from '../types/tasks.types';
 
 export const api = axios.create({
     baseURL: 'http://127.0.0.1:8000/api/kanban/tasks',

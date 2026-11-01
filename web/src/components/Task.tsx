@@ -1,9 +1,4 @@
-import { type TaskItem } from '../services/api.ts';
-
-// 1. Definimos a interface para as propriedades que o componente recebe
-interface TaskCardProps {
-    task: TaskItem;
-}
+import type { TaskCardProps } from "../types/tasks.types"; 
 
 // 2. Criamos o componente desestruturando a prop 'task'
 export default function TaskCard({ task }: TaskCardProps) {
