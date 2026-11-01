@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { type CreateTaskDTO, type TaskItem, createTask } from '../services/api';
+import axios from 'axios';
+import { createTask } from '../services/api';
+import type { CreateTaskDTO, TaskItem } from '../types/tasks.types';
+import { PRIORITY_LABELS, STATUS_LABELS } from '../types/tasks.types';
 
 interface TaskFormProps {
     onCreated: (task: TaskItem) => void;
@@ -53,7 +56,12 @@ export default function TaskForm({ onCreated, onCancel }: TaskFormProps) {
             onCreated(created);
             setForm(INITIAL_STATE);
         } catch (err) {
-            console.error('Erro ao criar tarefa: ', err);
+            // Mostra no console o que o DRF respondeu (ex.: { title: ["Este campo é obrigatório."] })
+            if (axios.isAxiosError(err) && err.response?.data) {
+                console.error('Resposta da API:', err.response.data);
+            } else {
+                console.error('Erro ao criar tarefa: ', err);
+            }
             setError('Não foi possível criar a tarefa. Tente novamente.');
         } finally {
             setSubmitting(false);
@@ -84,7 +92,7 @@ export default function TaskForm({ onCreated, onCancel }: TaskFormProps) {
                 <textarea
                     id="description"
                     name="description"
-                    value={form.description}
+                    value={form.description ?? ''}
                     onChange={handleChange}
                     rows={3}
                     placeholder="Detalhes da tarefa (opcional)"
@@ -96,18 +104,18 @@ export default function TaskForm({ onCreated, onCancel }: TaskFormProps) {
                 <div className="flex flex-col gap-1">
                     <label htmlFor="status" className="text-xs text-slate-400">Status</label>
                     <select id="status" name="status" value={form.status} onChange={handleChange} className={inputClass}>
-                        <option value="TODO">A fazer</option>
-                        <option value="PROGRESS">Em andamento</option>
-                        <option value="DONE">Concluída</option>
+                        {Object.entries(STATUS_LABELS).map(([value, label]) => (
+                            <option key={value} value={value}>{label}</option>
+                        ))}
                     </select>
                 </div>
 
                 <div className="flex flex-col gap-1">
                     <label htmlFor="priority" className="text-xs text-slate-400">Prioridade</label>
                     <select id="priority" name="priority" value={form.priority} onChange={handleChange} className={inputClass}>
-                        <option value="LOW">Baixa</option>
-                        <option value="MEDIUM">Média</option>
-                        <option value="HIGH">Alta</option>
+                        {Object.entries(PRIORITY_LABELS).map(([value, label]) => (
+                            <option key={value} value={value}>{label}</option>
+                        ))}
                     </select>
                 </div>
 
@@ -139,7 +147,7 @@ export default function TaskForm({ onCreated, onCancel }: TaskFormProps) {
                 <button
                     type="submit"
                     disabled={submitting}
-                    className="px-4 py-1.5 rounded-lg text-sm font-medium bg-orange-500 text-slate-900 hover:bg-orange-400 
+                    className="px-4 py-1.5 rounded-lg text-sm font-medium bg-orange-500 text-slate-900 hover:bg-orange-400
                     disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                     {submitting ? 'Salvando...' : 'Criar tarefa'}

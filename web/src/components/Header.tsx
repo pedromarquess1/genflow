@@ -1,9 +1,6 @@
-interface HeaderProps {
-    activeTab: 'kanban' | 'financeiro';
-    setActiveTab: (tab: 'kanban' | 'financeiro') => void;
-}
+import { NavLink } from 'react-router-dom';
 
-export default function Header({ activeTab, setActiveTab }: HeaderProps) {
+export default function Header() {
     return (
         <header className="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-50 px-4 sm:px-8">
             <div className="grid grid-cols-2 md:grid-cols-3 items-center h-16 w-full">
@@ -18,23 +15,31 @@ export default function Header({ activeTab, setActiveTab }: HeaderProps) {
 
                 <div className="hidden md:flex justify-center">
                     <nav className="flex space-x-2 bg-slate-950/40 p-1 rounded-xl border border-slate-800/60">
-                        <button onClick={() => setActiveTab('kanban')}
-                            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all 
-                            ${activeTab === 'kanban'
-                                    ? 'bg-slate-800 text-orange-400 border border-slate-700 shadow-sm'
-                                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'}`}>
+                        <NavLink 
+                            to="/"
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                                    isActive
+                                        ? 'bg-slate-800 text-orange-400 border border-slate-700 shadow-sm'
+                                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                                }`
+                            }
+                        >
                             <span>Kanban</span>
-                        </button>
+                        </NavLink>
 
-                        <button
-                            onClick={() => setActiveTab('financeiro')}
-                            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${activeTab === 'financeiro'
-                                    ? 'bg-slate-800 text-orange-400 border border-slate-700 shadow-sm'
-                                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                                }`}
+                        <NavLink
+                            to="/financeiro"
+                            className={({ isActive }) =>
+                                `flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                                    isActive
+                                        ? 'bg-slate-800 text-orange-400 border border-slate-700 shadow-sm'
+                                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                                }`
+                            }
                         >
                             <span>Financeiro</span>
-                        </button>
+                        </NavLink>
                     </nav>
                 </div>
 
@@ -53,18 +58,27 @@ export default function Header({ activeTab, setActiveTab }: HeaderProps) {
                 </div>
             </div>
 
-            {/* MOBILE */}
             <div className="md:hidden border-t border-slate-800 -mx-4 sm:-mx-8 px-4 py-2 flex justify-around bg-slate-900/95">
-                <button onClick={() => setActiveTab('kanban')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium 
-                ${activeTab === 'kanban' ? 'bg-slate-800 text-orange-400' : 'text-slate-400'}`}>
+                <NavLink 
+                    to="/kanban"
+                    className={({ isActive }) =>
+                        `flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium ${
+                            isActive ? 'bg-slate-800 text-orange-400' : 'text-slate-400'
+                        }`
+                    }
+                >
                     Kanban
-                </button>
-                <button onClick={() => setActiveTab('financeiro')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium 
-                ${activeTab === 'financeiro' ? 'bg-slate-800 text-orange-400' : 'text-slate-400'}`}>
+                </NavLink>
+                <NavLink 
+                    to="/financeiro"
+                    className={({ isActive }) =>
+                        `flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium ${
+                            isActive ? 'bg-slate-800 text-orange-400' : 'text-slate-400'
+                        }`
+                    }
+                >
                     Financeiro
-                </button>
+                </NavLink>
             </div>
         </header>
     );

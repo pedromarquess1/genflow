@@ -1,30 +1,29 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import Home from './components/Home';
 import TaskList from './components/TaskList';
-
+import NotFound from './components/NotFound';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'kanban' | 'financeiro'>('kanban');
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+    <BrowserRouter>
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+        {/* Cabeçalho fixo no topo */}
+        <Header />
 
-      <main className="flex-1 p-4 sm:p-8 max-w-7xl mx-auto w-full">
-        {activeTab === 'kanban' ? (
-          <div>
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold tracking-tight">Quadro Kanban</h1>
-            </div>
-            <TaskList />
-          </div>
-        ) : (
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight mb-6">Controle Financeiro</h1>
-            <p className="text-slate-400">Módulo financeiro em construção...</p>
-          </div>
-        )}
-      </main>
-    </div>
+        {/* Conteúdo dinâmico das páginas */}
+        <main className="flex-1 max-w-7xl w-full mx-auto p-6">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/kanban" element={<TaskList />} />
+            <Route 
+              path="/financeiro" 
+              element={<div className="text-slate-400 text-center py-12">Página do Financeiro em construção...</div>} 
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
