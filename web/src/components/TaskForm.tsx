@@ -45,7 +45,6 @@ export default function TaskForm({ onCreated, onCancel }: TaskFormProps) {
             setSubmitting(true);
             setError(null);
 
-            // due_date vazio não pode ir como "" (o DRF rejeita); só envia se preenchido
             const payload: CreateTaskDTO = {
                 ...form,
                 title: form.title.trim(),
@@ -56,7 +55,6 @@ export default function TaskForm({ onCreated, onCancel }: TaskFormProps) {
             onCreated(created);
             setForm(INITIAL_STATE);
         } catch (err) {
-            // Mostra no console o que o DRF respondeu (ex.: { title: ["Este campo é obrigatório."] })
             if (axios.isAxiosError(err) && err.response?.data) {
                 console.error('Resposta da API:', err.response.data);
             } else {

@@ -16,7 +16,7 @@ export default function Header() {
                 <div className="hidden md:flex justify-center">
                     <nav className="flex space-x-2 bg-slate-950/40 p-1 rounded-xl border border-slate-800/60">
                         <NavLink 
-                            to="/"
+                            to="/kanban"
                             className={({ isActive }) =>
                                 `flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
                                     isActive

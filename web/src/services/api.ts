@@ -9,7 +9,6 @@ export const api = axios.create({
     }
 });
 
-// Buscar tarefas (Corrigido com os parênteses)
 export const getTask = async (): Promise<TaskItem[]> => {
     try {
         const response = await api.get<TaskItem[]>(''); // Corrigido aqui
@@ -20,7 +19,6 @@ export const getTask = async (): Promise<TaskItem[]> => {
     }
 };
 
-// Criar nova tarefa
 export const createTask = async (taskData: CreateTaskDTO): Promise<TaskItem> => {
     try {
         const response = await api.post<TaskItem>('', taskData);
@@ -40,3 +38,12 @@ export const getTaskById = async (id: number): Promise<TaskItem> => {
         throw error;
     }
 }
+
+export const deleteTask = async (id: number): Promise<void> => {
+    try {
+        await api.delete(`${id}/`);
+    } catch (error) {
+        console.error('Erro ao excluir tarefa:', error);
+        throw error;
+    }
+};

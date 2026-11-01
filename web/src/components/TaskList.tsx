@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getTask } from '../services/api';
+import { getTask, deleteTask } from '../services/api';
 import type { TaskItem } from '../types/tasks.types';
 import TaskCard from './Task';
 import TaskForm from './TaskForm';
@@ -21,7 +21,7 @@ export default function TaskList() {
                 setTasks(data);
             } catch (err) {
                 console.error('Erro ao buscar Tasks: ', err);
-                setError('Não foi possível carregar as tarefas. Verifique se a API está rodando.');
+                setError('Não foi possível carregar as tarefas.');
             } finally {
                 setLoading(false);
             }
@@ -33,6 +33,17 @@ export default function TaskList() {
     const handleCreated = (task: TaskItem) => {
         setTasks((prev) => [task, ...prev]);
         setShowForm(false);
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+            setError(null);
+            await deleteTask(id);
+            // Só remove da tela depois que a API confirmou a exclusão
+            setTasks((prev) => prev.filter((t) => t.id !== id));
+        } catch {
+            setError('Não foi possível excluir a tarefa. Tente novamente.');
+        }
     };
 
     if (loading) return <p className="text-slate-400 text-sm">Carregando tarefas...</p>;
@@ -78,7 +89,7 @@ export default function TaskList() {
 
             {/* Listagem em Grid de 3 Colunas */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {filteredTasks.map((i) => <TaskCard key={i.id} task={i} />)}
+                {filteredTasks.map((i) => <TaskCard key={i.id} task={i} onDelete={handleDelete} />)}
             </div>
         </div>
     );
